@@ -3,11 +3,11 @@ import SwiftUI
 
 public struct ContentView: View {
     @ObservedObject var project: CollageProject
-    @Binding var activeFeature: TiffyCutFeature
+    let onBackHome: () -> Void
 
-    public init(project: CollageProject, activeFeature: Binding<TiffyCutFeature>) {
+    public init(project: CollageProject, onBackHome: @escaping () -> Void) {
         self.project = project
-        self._activeFeature = activeFeature
+        self.onBackHome = onBackHome
     }
 
     public var body: some View {
@@ -63,36 +63,29 @@ public struct ContentView: View {
     private var topToolbar: some View {
         HStack(spacing: 16) {
             HStack(spacing: 10) {
-                HStack(spacing: 7) {
-                    Image(systemName: "scissors")
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(Color.accentColor)
-                    Text("tiffy-cut")
-                        .font(.headline)
+                Button(action: onBackHome) {
+                    HStack(spacing: 5) {
+                        Image(systemName: "chevron.left")
+                            .font(.caption.weight(.bold))
+                        Text("หน้าแรก")
+                            .font(.subheadline.weight(.medium))
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Color.secondary.opacity(0.14), in: RoundedRectangle(cornerRadius: 7))
                 }
+                .buttonStyle(.plain)
+                .help("กลับไปหน้าแรก (⌘⇧H)")
 
                 Divider()
                     .frame(height: 18)
 
-                // Feature switcher (ready for future video editing tools)
-                HStack(spacing: 4) {
-                    ForEach(TiffyCutFeature.allCases) { feature in
-                        let isCurrent = activeFeature == feature
-                        Button {
-                            activeFeature = feature
-                        } label: {
-                            Label(feature.title, systemImage: feature.iconName)
-                                .font(.caption.weight(.semibold))
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 5)
-                                .background(
-                                    isCurrent ? Color.accentColor.opacity(0.18) : Color.clear,
-                                    in: Capsule()
-                                )
-                                .foregroundStyle(isCurrent ? Color.accentColor : Color.secondary)
-                        }
-                        .buttonStyle(.plain)
-                    }
+                HStack(spacing: 6) {
+                    Image(systemName: "rectangle.split.2x2.fill")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.accentColor)
+                    Text("Collage")
+                        .font(.headline)
                 }
             }
 
