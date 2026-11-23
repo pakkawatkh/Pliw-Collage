@@ -1,0 +1,8 @@
+.DS_Store
+.build/
+.build_dmg/
+.swiftpm/
+tiffy-cut.app/
+tiffy-cut-Installer.dmg
+tiffy-cut.zip
+docs/
