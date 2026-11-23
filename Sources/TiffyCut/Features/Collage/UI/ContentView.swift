@@ -172,7 +172,7 @@ public struct ContentView: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 54, alignment: .leading)
 
-            Text("\(Int(project.aspectRatio.renderSize.width))×\(Int(project.aspectRatio.renderSize.height))")
+            Text("\(Int(project.renderSize.width))×\(Int(project.renderSize.height))")
                 .font(.caption2.monospacedDigit())
                 .padding(.horizontal, 7)
                 .padding(.vertical, 3)
@@ -201,7 +201,7 @@ private struct ExportProgressSheet: View {
                 .progressViewStyle(.linear)
                 .frame(width: 280)
 
-            Text("\(Int(project.exportProgress * 100))%  •  1080p MP4 (H.264)")
+            Text("\(Int(project.exportProgress * 100))%  •  \(Int(project.renderSize.width))×\(Int(project.renderSize.height)) MP4 (H.264)")
                 .font(.caption.monospacedDigit())
                 .foregroundStyle(.secondary)
 

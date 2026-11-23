@@ -58,7 +58,7 @@ public final class CollageExporter: @unchecked Sendable {
     ) async throws -> URL {
         let built = try await CollageCompositionBuilder.build(config: config)
         let totalDurationSec = max(0.05, CMTimeGetSeconds(built.duration))
-        let renderSize = config.aspectRatio.renderSize
+        let renderSize = config.renderSize
 
         if FileManager.default.fileExists(atPath: outputURL.path) {
             try FileManager.default.removeItem(at: outputURL)

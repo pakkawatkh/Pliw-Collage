@@ -24,15 +24,33 @@ public enum TiffyCutRoute: Equatable {
     case feature(TiffyCutFeature)
 }
 
+final class TiffyCutAppDelegate: NSObject, NSApplicationDelegate {
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        // Cleanly quit when the last window closes so reopening the app always launches a fresh window.
+        return true
+    }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            for window in sender.windows {
+                window.makeKeyAndOrderFront(self)
+            }
+        }
+        sender.activate(ignoringOtherApps: true)
+        return true
+    }
+}
+
 @main
 struct TiffyCutApp: App {
+    @NSApplicationDelegateAdaptor(TiffyCutAppDelegate.self) private var appDelegate
     @StateObject private var collageProject = CollageProject()
     @State private var route: TiffyCutRoute = .home
-
-    init() {
-        NSApplication.shared.setActivationPolicy(.regular)
-        NSApplication.shared.activate(ignoringOtherApps: true)
-    }
 
     var body: some Scene {
         WindowGroup("tiffy-cut") {

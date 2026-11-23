@@ -7,9 +7,26 @@ import SwiftUI
 
 @MainActor
 public final class CollageProject: ObservableObject {
-    @Published public var aspectRatio: AspectRatioPreset = .tiktok9x16
+    @Published public var aspectRatio: AspectRatioPreset = .tiktok9x16 {
+        didSet {
+            if aspectRatio != .custom {
+                let sz = aspectRatio.renderSize
+                customWidth = Int(sz.width)
+                customHeight = Int(sz.height)
+            }
+        }
+    }
+    @Published public var customWidth: Int = 1080
+    @Published public var customHeight: Int = 1920
+    @Published public var customRatioW: Int = 9
+    @Published public var customRatioH: Int = 16
+
+    @Published public var customRows: Int = 2
+    @Published public var customColumns: Int = 2
+
     @Published public var layout: CollageLayout = .splitVertical {
         didSet {
+            ensureSlotCapacity(layout.slotCount)
             if selectedSlotIndex >= layout.slotCount {
                 selectedSlotIndex = 0
             }
@@ -17,7 +34,7 @@ public final class CollageProject: ObservableObject {
         }
     }
 
-    @Published public var slots: [ClipSlot] = (0..<4).map { ClipSlot(id: $0) }
+    @Published public var slots: [ClipSlot] = (0..<16).map { ClipSlot(id: $0) }
     @Published public var selectedSlotIndex: Int = 0
 
     /// Spacing in 1080p export pixels (scaled proportionally in preview).
@@ -41,13 +58,66 @@ public final class CollageProject: ObservableObject {
     @Published public var exportedURL: URL?
     @Published public var exportErrorMessage: String?
 
-    // Preview players (one per slot index 0..3)
-    public private(set) var players: [AVPlayer?] = [nil, nil, nil, nil]
+    // Preview players (dynamically grown to match slots)
+    public private(set) var players: [AVPlayer?] = Array(repeating: nil, count: 16)
     private var playbackTimer: Timer?
     private var lastTickDate: Date?
     private let exporter = CollageExporter()
 
     public init() {}
+
+    public var renderSize: CGSize {
+        if aspectRatio == .custom {
+            return CanvasDimensionHelper.sanitizedSize(width: customWidth, height: customHeight)
+        }
+        return aspectRatio.renderSize
+    }
+
+    public var canvasRatio: CGFloat {
+        let sz = renderSize
+        return sz.width / max(1, sz.height)
+    }
+
+    public func ensureSlotCapacity(_ needed: Int) {
+        let target = max(needed, 4)
+        while slots.count < target {
+            slots.append(ClipSlot(id: slots.count))
+        }
+        while players.count < target {
+            players.append(nil)
+        }
+    }
+
+    public func applyCustomGrid(rows: Int, columns: Int) {
+        let r = max(1, min(6, rows))
+        let c = max(1, min(6, columns))
+        customRows = r
+        customColumns = c
+        ensureSlotCapacity(r * c)
+        layout = .customGrid(rows: r, columns: c)
+    }
+
+    public func applyCustomRatio(w: Int, h: Int) {
+        let safeW = max(1, min(99, w))
+        let safeH = max(1, min(99, h))
+        customRatioW = safeW
+        customRatioH = safeH
+        let size = CanvasDimensionHelper.sizeForAspectRatio(ratioW: safeW, ratioH: safeH)
+        customWidth = Int(size.width)
+        customHeight = Int(size.height)
+        aspectRatio = .custom
+    }
+
+    public func swapCustomDimensions() {
+        let oldW = Int(renderSize.width)
+        let oldH = Int(renderSize.height)
+        customWidth = oldH
+        customHeight = oldW
+        let oldRW = customRatioW
+        customRatioW = customRatioH
+        customRatioH = oldRW
+        aspectRatio = .custom
+    }
 
     public var activeSlots: [ClipSlot] {
         Array(slots.prefix(layout.slotCount))
@@ -287,6 +357,7 @@ public final class CollageProject: ObservableObject {
 
         return CollageRenderConfig(
             aspectRatio: aspectRatio,
+            renderSize: renderSize,
             layout: layout,
             slots: activeSlots,
             spacing: spacing,
@@ -308,7 +379,10 @@ public final class CollageProject: ObservableObject {
         panel.canCreateDirectories = true
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd-HHmmss"
-        panel.nameFieldStringValue = "tiffy-cut-collage-\(aspectRatio.rawValue.replacingOccurrences(of: ":", with: "x"))-\(dateFormatter.string(from: Date())).mp4"
+        let sizeTag = aspectRatio == .custom
+            ? "\(Int(renderSize.width))x\(Int(renderSize.height))"
+            : aspectRatio.rawValue.replacingOccurrences(of: ":", with: "x")
+        panel.nameFieldStringValue = "tiffy-cut-collage-\(sizeTag)-\(dateFormatter.string(from: Date())).mp4"
 
         guard panel.runModal() == .OK, let destinationURL = panel.url else { return }
         startExport(to: destinationURL)

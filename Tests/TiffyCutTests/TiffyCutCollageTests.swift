@@ -104,6 +104,35 @@ final class TiffyCutCollageTests: XCTestCase {
         XCTAssertEqual(longest, 12.0, accuracy: 0.01)
     }
 
+    func testCustomGridLayoutsAndDimensionSanitizer() {
+        // Odd sizes must snap to even H.264 dimensions and clamp bounds
+        let odd = CanvasDimensionHelper.sanitizedSize(width: 1081, height: 1923)
+        XCTAssertEqual(Int(odd.width), 1080)
+        XCTAssertEqual(Int(odd.height), 1922)
+
+        let tiny = CanvasDimensionHelper.sanitizedSize(width: 100, height: 9999)
+        XCTAssertEqual(Int(tiny.width), 320)
+        XCTAssertEqual(Int(tiny.height), 3840)
+
+        let ratio3x4 = CanvasDimensionHelper.sizeForAspectRatio(ratioW: 3, ratioH: 4)
+        XCTAssertEqual(Int(ratio3x4.width), 1080)
+        XCTAssertEqual(Int(ratio3x4.height), 1440)
+
+        let custom6 = CollageLayout.customGrid(rows: 3, columns: 2)
+        let rects6 = LayoutCalculator.slotRectsTopLeft(
+            layout: custom6,
+            canvasSize: ratio3x4,
+            spacing: 12,
+            outerPadding: 16
+        )
+        XCTAssertEqual(rects6.count, 6)
+        for i in 0..<rects6.count {
+            for j in (i + 1)..<rects6.count {
+                XCTAssertFalse(rects6[i].intersects(rects6[j]))
+            }
+        }
+    }
+
     func testEndToEndVideoCollageExport9x16() async throws {
         let tmpDir = FileManager.default.temporaryDirectory
             .appendingPathComponent("clip-collage-test-\(UUID().uuidString)", isDirectory: true)

@@ -2,7 +2,7 @@ import CoreGraphics
 import Foundation
 
 /// A collage template defined by normalized [0...1] slot rectangles in top-left origin space.
-public enum CollageLayout: String, CaseIterable, Identifiable, Codable {
+public enum CollageLayout: Hashable, Identifiable, Codable {
     case splitVertical
     case splitHorizontal
     case threeRows
@@ -11,8 +11,39 @@ public enum CollageLayout: String, CaseIterable, Identifiable, Codable {
     case threeColumns
     case grid2x2
     case fourRows
+    case customGrid(rows: Int, columns: Int)
 
-    public var id: String { rawValue }
+    public static let presets: [CollageLayout] = [
+        .splitVertical,
+        .splitHorizontal,
+        .threeRows,
+        .threeTopBig,
+        .threeBottomBig,
+        .threeColumns,
+        .grid2x2,
+        .fourRows
+    ]
+
+    public static let allCases: [CollageLayout] = presets
+
+    public var id: String {
+        switch self {
+        case .splitVertical: return "splitVertical"
+        case .splitHorizontal: return "splitHorizontal"
+        case .threeRows: return "threeRows"
+        case .threeTopBig: return "threeTopBig"
+        case .threeBottomBig: return "threeBottomBig"
+        case .threeColumns: return "threeColumns"
+        case .grid2x2: return "grid2x2"
+        case .fourRows: return "fourRows"
+        case .customGrid(let r, let c): return "customGrid_\(r)x\(c)"
+        }
+    }
+
+    public var isCustom: Bool {
+        if case .customGrid = self { return true }
+        return false
+    }
 
     public var title: String {
         switch self {
@@ -24,6 +55,10 @@ public enum CollageLayout: String, CaseIterable, Identifiable, Codable {
         case .threeColumns: return "3 คอลัมน์"
         case .grid2x2: return "4 ช่อง (2×2)"
         case .fourRows: return "4 แถว"
+        case .customGrid(let r, let c):
+            let rows = max(1, min(6, r))
+            let cols = max(1, min(6, c))
+            return "\(rows)×\(cols) (\(rows * cols) ช่อง)"
         }
     }
 
@@ -84,6 +119,19 @@ public enum CollageLayout: String, CaseIterable, Identifiable, Codable {
                 CGRect(x: 0, y: 0.5, width: 1, height: 0.25),
                 CGRect(x: 0, y: 0.75, width: 1, height: 0.25)
             ]
+        case .customGrid(let rawRows, let rawCols):
+            let rows = max(1, min(6, rawRows))
+            let cols = max(1, min(6, rawCols))
+            let w = 1.0 / CGFloat(cols)
+            let h = 1.0 / CGFloat(rows)
+            var rects: [CGRect] = []
+            rects.reserveCapacity(rows * cols)
+            for row in 0..<rows {
+                for col in 0..<cols {
+                    rects.append(CGRect(x: CGFloat(col) * w, y: CGFloat(row) * h, width: w, height: h))
+                }
+            }
+            return rects
         }
     }
 }

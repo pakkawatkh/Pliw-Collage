@@ -2,6 +2,12 @@ import SwiftUI
 
 public struct SidebarControlsView: View {
     @ObservedObject var project: CollageProject
+    @State private var layoutTab: LayoutTab = .presets
+
+    private enum LayoutTab: String, CaseIterable {
+        case presets = "เทมเพลต"
+        case custom = "กำหนดช่องเอง"
+    }
 
     private let columns = [
         GridItem(.flexible(), spacing: 8),
@@ -14,21 +20,53 @@ public struct SidebarControlsView: View {
 
     public var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                // Layout Templates
-                VStack(alignment: .leading, spacing: 10) {
-                    Label("เลย์เอาต์ช่อง", systemImage: "square.grid.2x2")
-                        .font(.headline)
+            VStack(alignment: .leading, spacing: 18) {
+                // Custom Aspect Ratio & Pixel Size Section
+                if project.aspectRatio == .custom {
+                    customSizeSection
+                    Divider()
+                }
 
-                    LazyVGrid(columns: columns, spacing: 8) {
-                        ForEach(CollageLayout.allCases) { layout in
-                            LayoutThumbnailButton(
-                                layout: layout,
-                                isSelected: project.layout == layout
-                            ) {
-                                project.layout = layout
+                // Layout Templates / Custom Slot Count
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Label("เลย์เอาต์ & ช่อง", systemImage: "square.grid.2x2")
+                            .font(.headline)
+                        Spacer()
+                        Text("\(project.layout.slotCount) ช่อง")
+                            .font(.caption2.monospacedDigit().weight(.semibold))
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 2)
+                            .background(Color.accentColor.opacity(0.15), in: Capsule())
+                            .foregroundStyle(Color.accentColor)
+                    }
+
+                    Picker("", selection: $layoutTab) {
+                        ForEach(LayoutTab.allCases, id: \.self) { tab in
+                            Text(tab.rawValue).tag(tab)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .onChange(of: layoutTab) { newTab in
+                        if newTab == .custom && !project.layout.isCustom {
+                            project.applyCustomGrid(rows: project.customRows, columns: project.customColumns)
+                        }
+                    }
+
+                    if layoutTab == .presets {
+                        LazyVGrid(columns: columns, spacing: 8) {
+                            ForEach(CollageLayout.presets) { layout in
+                                LayoutThumbnailButton(
+                                    layout: layout,
+                                    isSelected: project.layout == layout
+                                ) {
+                                    project.layout = layout
+                                }
                             }
                         }
+                    } else {
+                        customGridSection
                     }
                 }
 
@@ -112,8 +150,162 @@ public struct SidebarControlsView: View {
             }
             .padding(16)
         }
-        .frame(width: 240)
+        .frame(width: 256)
         .background(Color(nsColor: .controlBackgroundColor))
+        .onAppear {
+            layoutTab = project.layout.isCustom ? .custom : .presets
+        }
+    }
+
+    private var customSizeSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Label("ขนาด & อัตราส่วนเอง", systemImage: "aspectratio")
+                    .font(.headline)
+                Spacer()
+                Button {
+                    project.swapCustomDimensions()
+                } label: {
+                    Image(systemName: "arrow.left.arrow.right")
+                        .font(.caption.weight(.semibold))
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.mini)
+                .help("สลับกว้าง ↔ สูง (แนวตั้ง/แนวนอน)")
+            }
+
+            // Free Aspect Ratio W : H
+            VStack(alignment: .leading, spacing: 6) {
+                Text("อัตราส่วน (กว้าง : สูง)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                HStack(spacing: 6) {
+                    TextField("W", value: Binding(
+                        get: { project.customRatioW },
+                        set: { project.applyCustomRatio(w: $0, h: project.customRatioH) }
+                    ), format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 54)
+                    .multilineTextAlignment(.center)
+
+                    Text(":")
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+
+                    TextField("H", value: Binding(
+                        get: { project.customRatioH },
+                        set: { project.applyCustomRatio(w: project.customRatioW, h: $0) }
+                    ), format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 54)
+                    .multilineTextAlignment(.center)
+
+                    Spacer()
+                }
+
+                // Quick custom ratio chips
+                HStack(spacing: 5) {
+                    ForEach([(3, 4), (2, 3), (4, 3), (21, 9)], id: \.0) { pair in
+                        Button("\(pair.0):\(pair.1)") {
+                            project.applyCustomRatio(w: pair.0, h: pair.1)
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.mini)
+                    }
+                }
+            }
+
+            // Free Pixel Size Width × Height
+            VStack(alignment: .leading, spacing: 6) {
+                Text("ขนาดพิกเซลส่งออก (px)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                HStack(spacing: 6) {
+                    TextField("Width", value: Binding(
+                        get: { project.customWidth },
+                        set: { project.customWidth = max(320, min(3840, $0)) }
+                    ), format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .multilineTextAlignment(.center)
+
+                    Text("×")
+                        .foregroundStyle(.secondary)
+
+                    TextField("Height", value: Binding(
+                        get: { project.customHeight },
+                        set: { project.customHeight = max(320, min(3840, $0)) }
+                    ), format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .multilineTextAlignment(.center)
+                }
+
+                Text("ส่งออกจริง: \(Int(project.renderSize.width)) × \(Int(project.renderSize.height)) px")
+                    .font(.caption2.monospacedDigit())
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+
+    private var customGridSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            // Rows stepper
+            HStack {
+                Text("จำนวนแถว (Rows)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Stepper(
+                    value: Binding(
+                        get: { project.customRows },
+                        set: { project.applyCustomGrid(rows: $0, columns: project.customColumns) }
+                    ),
+                    in: 1...6
+                ) {
+                    Text("\(project.customRows)")
+                        .font(.caption.monospacedDigit().bold())
+                        .frame(width: 20, alignment: .trailing)
+                }
+            }
+
+            // Columns stepper
+            HStack {
+                Text("จำนวนคอลัมน์ (Cols)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Stepper(
+                    value: Binding(
+                        get: { project.customColumns },
+                        set: { project.applyCustomGrid(rows: project.customRows, columns: $0) }
+                    ),
+                    in: 1...6
+                ) {
+                    Text("\(project.customColumns)")
+                        .font(.caption.monospacedDigit().bold())
+                        .frame(width: 20, alignment: .trailing)
+                }
+            }
+
+            // Quick custom grid presets
+            VStack(alignment: .leading, spacing: 6) {
+                Text("ตารางด่วน")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 6) {
+                    ForEach([(1, 1, "1 ช่อง"), (3, 2, "6 ช่อง"), (2, 3, "2×3"), (3, 3, "9 ช่อง"), (4, 2, "8 ช่อง"), (4, 3, "12 ช่อง")], id: \.2) { item in
+                        let active = project.layout == .customGrid(rows: item.0, columns: item.1)
+                        Button(item.2) {
+                            project.applyCustomGrid(rows: item.0, columns: item.1)
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(active ? .accentColor : nil)
+                        .controlSize(.small)
+                    }
+                }
+            }
+        }
+        .padding(10)
+        .background(Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 10))
     }
 }
 

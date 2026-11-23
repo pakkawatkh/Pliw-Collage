@@ -12,7 +12,7 @@ public struct CollageCanvasView: View {
         GeometryReader { geo in
             let availableW = max(100, geo.size.width - 40)
             let availableH = max(100, geo.size.height - 40)
-            let ratio = project.aspectRatio.ratio
+            let ratio = project.canvasRatio
 
             let previewSize: CGSize = {
                 if availableW / availableH > ratio {
@@ -24,7 +24,7 @@ public struct CollageCanvasView: View {
                 }
             }()
 
-            let scaleFactor = previewSize.width / project.aspectRatio.renderSize.width
+            let scaleFactor = previewSize.width / max(1, project.renderSize.width)
             let previewSpacing = project.spacing * scaleFactor
             let previewPadding = project.outerPadding * scaleFactor
             let previewRadius = project.cornerRadius * scaleFactor

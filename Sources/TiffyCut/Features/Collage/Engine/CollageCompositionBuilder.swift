@@ -4,6 +4,7 @@ import Foundation
 
 public struct CollageRenderConfig {
     public let aspectRatio: AspectRatioPreset
+    public let renderSize: CGSize
     public let layout: CollageLayout
     public let slots: [ClipSlot]
     public let spacing: CGFloat
@@ -15,6 +16,7 @@ public struct CollageRenderConfig {
 
     public init(
         aspectRatio: AspectRatioPreset,
+        renderSize: CGSize? = nil,
         layout: CollageLayout,
         slots: [ClipSlot],
         spacing: CGFloat,
@@ -25,6 +27,11 @@ public struct CollageRenderConfig {
         frameRate: Int32 = 30
     ) {
         self.aspectRatio = aspectRatio
+        let chosenSize = renderSize ?? aspectRatio.renderSize
+        self.renderSize = CanvasDimensionHelper.sanitizedSize(
+            width: Int(chosenSize.width.rounded()),
+            height: Int(chosenSize.height.rounded())
+        )
         self.layout = layout
         self.slots = slots
         self.spacing = spacing
@@ -71,7 +78,7 @@ public enum CollageCompositionBuilder {
 
         let targetDuration = CMTime(seconds: totalSeconds, preferredTimescale: 600)
         let composition = AVMutableComposition()
-        let renderSize = config.aspectRatio.renderSize
+        let renderSize = config.renderSize
 
         let bottomLeftRects = LayoutCalculator.slotRectsBottomLeft(
             layout: config.layout,

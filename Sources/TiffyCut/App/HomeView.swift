@@ -25,7 +25,7 @@ public struct HomeView: View {
                     .foregroundStyle(Color.accentColor)
                 Text("tiffy-cut")
                     .font(.headline)
-                Text("v1.0.1")
+                Text("v1.0.2")
                     .font(.caption2.monospacedDigit())
                     .padding(.horizontal, 7)
                     .padding(.vertical, 2)
