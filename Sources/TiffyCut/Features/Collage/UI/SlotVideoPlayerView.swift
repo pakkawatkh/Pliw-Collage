@@ -86,6 +86,11 @@ public final class PlayerContainerNSView: NSView {
         layoutSublayers()
     }
 
+    public override func hitTest(_ point: NSPoint) -> NSView? {
+        // Pure visual video surface: let SwiftUI handle all clicks and drags without AppKit responder beeps.
+        return nil
+    }
+
     public override func layout() {
         super.layout()
         layoutSublayers()

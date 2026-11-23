@@ -94,30 +94,36 @@ private struct SlotCellView: View {
                     offsetX: slot.offsetX,
                     offsetY: slot.offsetY
                 )
+                .allowsHitTesting(false)
                 .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-                .contentShape(Rectangle())
-                .gesture(
-                    DragGesture(minimumDistance: 3)
-                        .onChanged { value in
-                            if project.selectedSlotIndex != slotIndex {
-                                project.selectedSlotIndex = slotIndex
-                            }
-                            if dragStartOffset == nil {
-                                dragStartOffset = CGPoint(x: slot.offsetX, y: slot.offsetY)
-                            }
-                            guard let start = dragStartOffset else { return }
-                            let sensX = max(1, slotSize.width * 0.5)
-                            let sensY = max(1, slotSize.height * 0.5)
-                            project.slots[slotIndex].offsetX = max(-1, min(1, start.x + value.translation.width / sensX))
-                            project.slots[slotIndex].offsetY = max(-1, min(1, start.y + value.translation.height / sensY))
+                .overlay(
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            NSApp.keyWindow?.makeFirstResponder(nil)
+                            project.selectedSlotIndex = slotIndex
                         }
-                        .onEnded { _ in
-                            dragStartOffset = nil
-                        }
+                        .highPriorityGesture(
+                            DragGesture(minimumDistance: 3)
+                                .onChanged { value in
+                                    if project.selectedSlotIndex != slotIndex {
+                                        project.selectedSlotIndex = slotIndex
+                                    }
+                                    if dragStartOffset == nil {
+                                        NSApp.keyWindow?.makeFirstResponder(nil)
+                                        dragStartOffset = CGPoint(x: slot.offsetX, y: slot.offsetY)
+                                    }
+                                    guard let start = dragStartOffset else { return }
+                                    let sensX = max(1, slotSize.width * 0.5)
+                                    let sensY = max(1, slotSize.height * 0.5)
+                                    project.slots[slotIndex].offsetX = max(-1, min(1, start.x + value.translation.width / sensX))
+                                    project.slots[slotIndex].offsetY = max(-1, min(1, start.y + value.translation.height / sensY))
+                                }
+                                .onEnded { _ in
+                                    dragStartOffset = nil
+                                }
+                        )
                 )
-                .onTapGesture {
-                    project.selectedSlotIndex = slotIndex
-                }
 
                 // Hover / Selected quick overlay controls
                 if isHovered || isSelected {

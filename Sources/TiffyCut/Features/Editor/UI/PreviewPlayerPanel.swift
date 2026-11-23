@@ -28,6 +28,7 @@ public struct PreviewPlayerPanel: View {
                 ZStack {
                     if project.hasVisualContent {
                         TimelinePlayerNSView(player: project.player)
+                            .allowsHitTesting(false)
                             .frame(width: canvasSize.width, height: canvasSize.height)
                             .background(Color.black)
                             .clipShape(RoundedRectangle(cornerRadius: 4))
@@ -146,6 +147,10 @@ private struct TimelinePlayerNSView: NSViewRepresentable {
 
         @available(*, unavailable)
         required init?(coder: NSCoder) { fatalError() }
+
+        override func hitTest(_ point: NSPoint) -> NSView? {
+            return nil
+        }
 
         override func layout() {
             super.layout()

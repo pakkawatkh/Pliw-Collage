@@ -104,10 +104,10 @@ public struct TimelinePanel: View {
             }
             .keyboardShortcut("d", modifiers: [.command])
 
-            toolbarButton(icon: "trash", help: "ลบคลิปที่เลือก (⌫)", disabled: project.selectedClip == nil) {
+            toolbarButton(icon: "trash", help: "ลบคลิปที่เลือก (⌘⌫)", disabled: project.selectedClip == nil) {
                 project.deleteSelectedClip()
             }
-            .keyboardShortcut(.delete, modifiers: [])
+            .keyboardShortcut(.delete, modifiers: [.command])
 
             Divider().frame(height: 16).overlay(CapCutTheme.border)
 
@@ -198,9 +198,10 @@ public struct TimelinePanel: View {
         }
         .frame(height: rulerHeight)
         .contentShape(Rectangle())
-        .gesture(
+        .highPriorityGesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { value in
+                    NSApp.keyWindow?.makeFirstResponder(nil)
                     project.pause()
                     let t = Double(max(0, value.location.x) / project.timelineZoom)
                     project.seek(to: t)

@@ -4,6 +4,7 @@ import SwiftUI
 public struct EditorWorkspaceView: View {
     @ObservedObject var project: TimelineProject
     let onBackHome: () -> Void
+    @State private var isEditingTitle = false
 
     public init(project: TimelineProject, onBackHome: @escaping () -> Void) {
         self.project = project
@@ -103,15 +104,39 @@ public struct EditorWorkspaceView: View {
 
             Spacer()
 
-            TextField("ชื่อโปรเจกต์", text: $project.projectName)
-                .textFieldStyle(.plain)
-                .font(.subheadline.weight(.medium))
-                .multilineTextAlignment(.center)
-                .foregroundStyle(.white.opacity(0.9))
-                .frame(maxWidth: 240)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 4)
-                .background(CapCutTheme.bgElevated.opacity(0.6), in: RoundedRectangle(cornerRadius: 6))
+            if isEditingTitle {
+                TextField("ชื่อโปรเจกต์", text: $project.projectName)
+                    .textFieldStyle(.plain)
+                    .font(.subheadline.weight(.medium))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white.opacity(0.95))
+                    .frame(maxWidth: 240)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(CapCutTheme.bgElevated, in: RoundedRectangle(cornerRadius: 6))
+                    .onSubmit {
+                        isEditingTitle = false
+                        NSApp.keyWindow?.makeFirstResponder(nil)
+                    }
+            } else {
+                Button {
+                    isEditingTitle = true
+                } label: {
+                    HStack(spacing: 5) {
+                        Text(project.projectName.isEmpty ? "โปรเจกต์ใหม่" : project.projectName)
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(.white.opacity(0.9))
+                        Image(systemName: "pencil")
+                            .font(.caption2)
+                            .foregroundStyle(.white.opacity(0.4))
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(CapCutTheme.bgElevated.opacity(0.45), in: RoundedRectangle(cornerRadius: 6))
+                }
+                .buttonStyle(.plain)
+                .help("คลิกเพื่อเปลี่ยนชื่อโปรเจกต์")
+            }
 
             Spacer()
 
