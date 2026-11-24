@@ -33,7 +33,7 @@ cat << 'EOF' > "${DMG_TMP}/How to Install.txt"
    - Or run in Terminal:
      xattr -cr "/Applications/Pliw Collage.app"
 
-3. FEATURES (v3.1.1):
+3. FEATURES (v3.1.2):
    - Video Collage Studio: 9:16, 4:5, 1:1, 16:9, and custom grids up to 6×6.
    - Drag & drop clips, pan/zoom framing, trim, border/corner styling, per-slot audio,
      hardware-accelerated MP4 export, and one-click in-app Auto-Updater.
