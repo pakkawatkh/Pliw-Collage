@@ -9,8 +9,8 @@
 `Tiffy Collage` is a lightweight, native macOS video collage studio built with SwiftUI, AVFoundation, and CoreImage — combine multiple video clips into `9:16`, `4:5`, `1:1`, `16:9`, or custom grids up to `6×6` and export crisp MP4 with zero watermarks.
 
 - 🌐 **Website & Preview:** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/
-- 📥 **Direct Download (DMG):** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/tiffy-collage-Installer.dmg
-- 🗜️ **ZIP Archive:** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/tiffy-collage.zip
+- 📥 **Direct Download (DMG · 1.7 MB):** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/tiffy-collage-Installer.dmg
+- 🗜️ **ZIP Archive (1.4 MB):** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/tiffy-collage.zip
 
 ---
 
