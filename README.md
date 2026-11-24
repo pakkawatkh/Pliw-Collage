@@ -1,11 +1,11 @@
-# ✂️ tiffy-cut
+# ✂️ Tiffy Cut
 
 **CapCut-Style Video Editor & Collage Studio for macOS**
 
-[![Version](https://img.shields.io/badge/Release-v2.0.1-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/tiffy-app/tiffy-cut/)
-[![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/tiffy-cut)
+[![Version](https://img.shields.io/badge/Release-v2.0.2-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/tiffy-app/tiffy-cut/)
+[![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Tiffy-Cut)
 
-`tiffy-cut` is a lightweight, native macOS video editing suite built with SwiftUI, AVFoundation, and Metal-accelerated CoreImage — designed for fast TikTok, Instagram Reels, and YouTube workflows with zero watermarks.
+`Tiffy Cut` is a lightweight, native macOS video editing suite built with SwiftUI, AVFoundation, and Metal-accelerated CoreImage — designed for fast TikTok, Instagram Reels, and YouTube workflows with zero watermarks.
 
 - 🌐 **Live Website & Studio Preview:** https://pakkawatkh.github.io/tiffy-app/tiffy-cut/
 - 📥 **Direct Download (DMG · 2.0 MB):** https://pakkawatkh.github.io/tiffy-app/tiffy-cut/tiffy-cut-Installer.dmg
@@ -27,15 +27,15 @@
 
 ---
 
-## 🚀 Installation Guide (วิธีติดตั้ง)
+## 🚀 Installation Guide
 
 1. Download **`tiffy-cut-Installer.dmg`** from the link above and double-click to open it.
-2. Drag **`tiffy-cut.app`** into the **Applications** folder.
+2. Drag **`Tiffy Cut.app`** into the **Applications** folder.
 3. **First-Time Launch (macOS Gatekeeper):**
    - Open **System Settings → Privacy & Security → Open Anyway**, **or**
    - Run in Terminal:
      ```bash
-     xattr -cr /Applications/tiffy-cut.app
+     xattr -cr "/Applications/Tiffy Cut.app"
      ```
 
 ---

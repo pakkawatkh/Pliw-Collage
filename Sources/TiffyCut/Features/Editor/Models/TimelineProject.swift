@@ -592,7 +592,7 @@ public final class TimelineProject: ObservableObject {
         pause()
 
         let panel = NSSavePanel()
-        panel.title = "Export Video (tiffy-cut)"
+        panel.title = "Export Video (Tiffy Cut)"
         panel.allowedContentTypes = [.mpeg4Movie]
         panel.canCreateDirectories = true
         let safeName = exportSettings.fileName.trimmingCharacters(in: .whitespacesAndNewlines)

@@ -97,7 +97,7 @@ public struct EditorWorkspaceView: View {
             HStack(spacing: 6) {
                 Image(systemName: "scissors")
                     .foregroundStyle(CapCutTheme.cyan)
-                Text("tiffy-cut")
+                Text("Tiffy Cut")
                     .font(.subheadline.bold())
                     .foregroundStyle(.white)
             }

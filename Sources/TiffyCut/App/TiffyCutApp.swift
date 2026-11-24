@@ -56,7 +56,7 @@ struct TiffyCutApp: App {
     @State private var route: TiffyCutRoute = .home
 
     var body: some Scene {
-        WindowGroup("tiffy-cut") {
+        WindowGroup("Tiffy Cut") {
             Group {
                 switch route {
                 case .home:

@@ -28,7 +28,7 @@ public struct HomeView: View {
                 Image(systemName: "scissors")
                     .font(.title3.weight(.bold))
                     .foregroundStyle(CapCutTheme.cyan)
-                Text("tiffy-cut")
+                Text("Tiffy Cut")
                     .font(.headline.bold())
                     .foregroundStyle(.white)
                 Text("v2.0.1")
