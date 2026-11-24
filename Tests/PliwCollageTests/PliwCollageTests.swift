@@ -3,9 +3,9 @@ import CoreGraphics
 import CoreImage
 import CoreVideo
 import XCTest
-@testable import TiffyCollage
+@testable import PliwCollage
 
-final class TiffyCutCollageTests: XCTestCase {
+final class PliwCutCollageTests: XCTestCase {
 
     func testAllLayoutsProduceNonOverlappingPositiveRectsInsideCanvas() {
         let canvas = CGSize(width: 1080, height: 1920)

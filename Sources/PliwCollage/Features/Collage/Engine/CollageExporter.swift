@@ -24,7 +24,7 @@ public enum CollageExportError: LocalizedError {
 }
 
 public final class CollageExporter: @unchecked Sendable {
-    private let stateQueue = DispatchQueue(label: "com.local.tiffy-cut.exporter.state")
+    private let stateQueue = DispatchQueue(label: "com.local.pliw-cut.exporter.state")
     private var cancelledFlag = false
     private var activeReader: AVAssetReader?
     private var activeWriter: AVAssetWriter?

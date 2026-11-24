@@ -382,7 +382,7 @@ public final class CollageProject: ObservableObject {
         let sizeTag = aspectRatio == .custom
             ? "\(Int(renderSize.width))x\(Int(renderSize.height))"
             : aspectRatio.rawValue.replacingOccurrences(of: ":", with: "x")
-        panel.nameFieldStringValue = "tiffy-cut-collage-\(sizeTag)-\(dateFormatter.string(from: Date())).mp4"
+        panel.nameFieldStringValue = "pliw-cut-collage-\(sizeTag)-\(dateFormatter.string(from: Date())).mp4"
 
         guard panel.runModal() == .OK, let destinationURL = panel.url else { return }
         startExport(to: destinationURL)

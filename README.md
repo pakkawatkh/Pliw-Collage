@@ -1,16 +1,16 @@
-# 🧩 Tiffy Collage
+# 🧩 Pliw Collage
 
 **Native macOS Video Collage Studio**
 
-[![Version](https://img.shields.io/badge/Release-v3.0.0-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/)
-[![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Tiffy-Collage)
+[![Version](https://img.shields.io/badge/Release-v3.1.0-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/Pliw-App/pliw-collage/)
+[![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Pliw-Collage)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-`Tiffy Collage` is a lightweight, native macOS video collage studio built with SwiftUI, AVFoundation, and CoreImage — combine multiple video clips into `9:16`, `4:5`, `1:1`, `16:9`, or custom grids up to `6×6` and export crisp MP4 with zero watermarks.
+`Pliw Collage` is a lightweight, native macOS video collage studio built with SwiftUI, AVFoundation, and CoreImage — combine multiple video clips into `9:16`, `4:5`, `1:1`, `16:9`, or custom grids up to `6×6` and export crisp MP4 with zero watermarks.
 
-- 🌐 **Website & Preview:** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/
-- 📥 **Direct Download (DMG · 1.7 MB):** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/tiffy-collage-Installer.dmg
-- 🗜️ **ZIP Archive (1.4 MB):** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/tiffy-collage.zip
+- 🌐 **Website & Preview:** https://pakkawatkh.github.io/Pliw-App/pliw-collage/
+- 📥 **Direct Download (DMG · 1.7 MB):** https://pakkawatkh.github.io/Pliw-App/pliw-collage/pliw-collage-Installer.dmg
+- 🗜️ **ZIP Archive (1.4 MB):** https://pakkawatkh.github.io/Pliw-App/pliw-collage/pliw-collage.zip
 
 ---
 
@@ -25,11 +25,11 @@
 
 ## 🚀 Installation
 
-1. Download **`tiffy-collage-Installer.dmg`** and double-click to mount it.
-2. Drag **`Tiffy Collage.app`** into your **Applications** folder.
+1. Download **`pliw-collage-Installer.dmg`** and double-click to mount it.
+2. Drag **`Pliw Collage.app`** into your **Applications** folder.
 3. **First-Time Launch (Gatekeeper):** Open **System Settings → Privacy & Security → Open Anyway**, or run:
    ```bash
-   xattr -cr "/Applications/Tiffy Collage.app"
+   xattr -cr "/Applications/Pliw Collage.app"
    ```
 
 ---

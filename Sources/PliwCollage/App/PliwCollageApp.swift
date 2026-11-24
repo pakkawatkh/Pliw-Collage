@@ -1,12 +1,12 @@
 import AppKit
 import SwiftUI
 
-final class TiffyCollageAppDelegate: NSObject, NSApplicationDelegate {
+final class PliwCollageAppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
         Task { @MainActor in
-            TiffyCollageUpdateManager.shared.checkForUpdates(manual: false)
+            PliwCollageUpdateManager.shared.checkForUpdates(manual: false)
         }
     }
 
@@ -26,12 +26,12 @@ final class TiffyCollageAppDelegate: NSObject, NSApplicationDelegate {
 }
 
 @main
-struct TiffyCollageApp: App {
-    @NSApplicationDelegateAdaptor(TiffyCollageAppDelegate.self) private var appDelegate
+struct PliwCollageApp: App {
+    @NSApplicationDelegateAdaptor(PliwCollageAppDelegate.self) private var appDelegate
     @StateObject private var collageProject = CollageProject()
 
     var body: some Scene {
-        WindowGroup("Tiffy Collage") {
+        WindowGroup("Pliw Collage") {
             ContentView(project: collageProject)
         }
         .windowStyle(.titleBar)
@@ -39,7 +39,7 @@ struct TiffyCollageApp: App {
         .commands {
             CommandGroup(after: .appInfo) {
                 Button("ตรวจสอบอัปเดต... (Check for Updates)") {
-                    TiffyCollageUpdateManager.shared.checkForUpdates(manual: true)
+                    PliwCollageUpdateManager.shared.checkForUpdates(manual: true)
                 }
             }
 

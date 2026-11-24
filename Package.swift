@@ -2,27 +2,27 @@
 import PackageDescription
 
 let package = Package(
-    name: "Tiffy-Collage",
+    name: "Pliw-Collage",
     platforms: [
         .macOS(.v13)
     ],
     products: [
         .executable(
-            name: "tiffy-collage",
-            targets: ["TiffyCollage"]
+            name: "pliw-collage",
+            targets: ["PliwCollage"]
         )
     ],
     dependencies: [],
     targets: [
         .executableTarget(
-            name: "TiffyCollage",
+            name: "PliwCollage",
             dependencies: [],
-            path: "Sources/TiffyCollage"
+            path: "Sources/PliwCollage"
         ),
         .testTarget(
-            name: "TiffyCollageTests",
-            dependencies: ["TiffyCollage"],
-            path: "Tests/TiffyCollageTests"
+            name: "PliwCollageTests",
+            dependencies: ["PliwCollage"],
+            path: "Tests/PliwCollageTests"
         )
     ]
 )

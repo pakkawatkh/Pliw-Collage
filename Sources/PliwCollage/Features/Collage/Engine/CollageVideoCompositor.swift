@@ -70,7 +70,7 @@ public final class CollageVideoCompositor: NSObject, AVVideoCompositing {
         ])
     }()
 
-    private let renderQueue = DispatchQueue(label: "com.local.tiffy-cut.compositor", qos: .userInitiated)
+    private let renderQueue = DispatchQueue(label: "com.local.pliw-cut.compositor", qos: .userInitiated)
     private var shouldCancelPending = false
 
     public var sourcePixelBufferAttributes: [String: any Sendable]? {

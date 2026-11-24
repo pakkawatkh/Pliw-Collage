@@ -3,7 +3,7 @@ import SwiftUI
 
 public struct ContentView: View {
     @ObservedObject var project: CollageProject
-    @ObservedObject private var updater = TiffyCollageUpdateManager.shared
+    @ObservedObject private var updater = PliwCollageUpdateManager.shared
 
     public init(project: CollageProject) {
         self.project = project
@@ -63,13 +63,13 @@ public struct ContentView: View {
         }
     }
 
-    private func updateBanner(_ update: TiffyCollageReleaseMeta) -> some View {
+    private func updateBanner(_ update: PliwCollageReleaseMeta) -> some View {
         HStack(spacing: 12) {
             Image(systemName: "arrow.down.circle.fill")
                 .font(.title3)
                 .foregroundStyle(Color.accentColor)
             VStack(alignment: .leading, spacing: 2) {
-                Text("มีเวอร์ชันใหม่พร้อมอัปเดต: Tiffy Collage v\(update.latestVersion)")
+                Text("มีเวอร์ชันใหม่พร้อมอัปเดต: Pliw Collage v\(update.latestVersion)")
                     .font(.subheadline.weight(.semibold))
                 if let notes = update.releaseNotes, !notes.isEmpty {
                     Text(notes)
@@ -108,7 +108,7 @@ public struct ContentView: View {
                 Image(systemName: "rectangle.split.2x2.fill")
                     .font(.subheadline)
                     .foregroundStyle(Color.accentColor)
-                Text("Tiffy Collage")
+                Text("Pliw Collage")
                     .font(.headline)
                 Text("v\(updater.currentVersion)")
                     .font(.caption2.monospacedDigit())
