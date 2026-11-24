@@ -31,6 +31,9 @@ final class TiffyCutAppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
+        Task { @MainActor in
+            TiffyCutUpdateManager.shared.checkForUpdates(manual: false)
+        }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -100,6 +103,12 @@ struct TiffyCutApp: App {
         .windowStyle(.titleBar)
         .defaultSize(width: 1200, height: 780)
         .commands {
+            CommandGroup(after: .appInfo) {
+                Button("ตรวจสอบอัปเดต... (Check for Updates)") {
+                    TiffyCutUpdateManager.shared.checkForUpdates(manual: true)
+                }
+            }
+
             CommandGroup(after: .newItem) {
                 Button("หน้าแรก (Home)") {
                     timelineProject.pause()

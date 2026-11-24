@@ -2,7 +2,7 @@
 
 **CapCut-Style Video Editor & Collage Studio for macOS**
 
-[![Version](https://img.shields.io/badge/Release-v2.0.2-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/)
+[![Version](https://img.shields.io/badge/Release-v2.1.0-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/)
 [![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Tiffy-Cut)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -21,6 +21,7 @@
 - **Fast Editing Tools:** Split clip (`⌘B`), Trim, Undo/Redo, Scale/Position/Rotation/Flip, and Speed (`0.25x–4x`).
 - **Color & Style:** 7 built-in filters, color grading sliders, smooth clip transitions, and project auto-saving.
 - **Hardware-Accelerated Export:** Export crisp MP4 in `720p`, `1080p`, or `4K` at `24/30/60fps` (`H.264` or `HEVC`).
+- **One-Click In-App Auto-Updater:** Automatically checks for updates on launch and updates in one click.
 
 ### 2. 🧩 Collage Studio
 - **Social Aspect Ratios & Custom Grids:** Instant presets for `9:16`, `4:5`, `1:1`, `16:9`, or custom aspect ratios and grids from `1×1` up to `6×6`.

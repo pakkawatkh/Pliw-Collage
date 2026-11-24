@@ -3,6 +3,7 @@ import SwiftUI
 public struct HomeView: View {
     @ObservedObject var timelineProject: TimelineProject
     @ObservedObject var collageProject: CollageProject
+    @ObservedObject private var updater = TiffyCutUpdateManager.shared
     let onStartNewProject: () -> Void
     let onOpenProject: (TimelineSnapshot) -> Void
     let onOpenCollage: () -> Void
@@ -31,22 +32,88 @@ public struct HomeView: View {
                 Text("Tiffy Cut")
                     .font(.headline.bold())
                     .foregroundStyle(.white)
-                Text("v2.0.1")
+                Text("v\(updater.currentVersion)")
                     .font(.caption2.monospacedDigit())
                     .padding(.horizontal, 7)
                     .padding(.vertical, 2)
                     .background(CapCutTheme.cyan.opacity(0.18), in: Capsule())
                     .foregroundStyle(CapCutTheme.cyan)
                 Spacer()
-                Text("Native macOS Video Studio")
-                    .font(.caption)
-                    .foregroundStyle(.white.opacity(0.45))
+                if let msg = updater.statusMessage {
+                    Text(msg)
+                        .font(.caption)
+                        .foregroundStyle(CapCutTheme.cyan)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .background(CapCutTheme.cyan.opacity(0.12), in: Capsule())
+                }
+                Button {
+                    updater.checkForUpdates(manual: true)
+                } label: {
+                    HStack(spacing: 5) {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                            .font(.caption2.weight(.semibold))
+                        Text("Check for Updates")
+                            .font(.caption.weight(.medium))
+                    }
+                    .foregroundStyle(.white.opacity(0.8))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Color.white.opacity(0.08), in: Capsule())
+                }
+                .buttonStyle(.plain)
+                .disabled(updater.isChecking || updater.isUpdating)
             }
             .padding(.horizontal, 28)
             .padding(.vertical, 14)
             .background(CapCutTheme.bgPanel)
 
             Divider().overlay(CapCutTheme.border)
+
+            if let update = updater.availableUpdate {
+                HStack(spacing: 12) {
+                    Image(systemName: "arrow.down.circle.fill")
+                        .font(.title3)
+                        .foregroundStyle(CapCutTheme.cyan)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("มีเวอร์ชันใหม่พร้อมอัปเดต: Tiffy Cut v\(update.latestVersion)")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.white)
+                        if let notes = update.releaseNotes, !notes.isEmpty {
+                            Text(notes)
+                                .font(.caption)
+                                .foregroundStyle(.white.opacity(0.68))
+                                .lineLimit(2)
+                        }
+                    }
+                    Spacer()
+                    Button {
+                        updater.installAvailableUpdate()
+                    } label: {
+                        Text(updater.isUpdating ? "กำลังอัปเดต..." : "อัปเดตเลย (Update Now)")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(.black)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 7)
+                            .background(CapCutTheme.cyan, in: Capsule())
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(updater.isUpdating)
+
+                    Button {
+                        updater.dismissBanner()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(.white.opacity(0.55))
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding(.horizontal, 28)
+                .padding(.vertical, 12)
+                .background(CapCutTheme.cyan.opacity(0.12))
+                Divider().overlay(CapCutTheme.border)
+            }
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
