@@ -50,7 +50,7 @@ echo "🗜️ Creating ZIP archive: ${ZIP_OUTPUT}..."
 rm -f "${ZIP_OUTPUT}"
 ditto -c -k --keepParent "${PROJECT_DIR}/Tiffy Cut.app" "${ZIP_OUTPUT}"
 
-TIFFY_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/tiffy-app/tiffy-cut"
+TIFFY_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/Tiffy-App/tiffy-cut"
 mkdir -p "${TIFFY_DIR}"
 echo "📦 Syncing DMG and ZIP to ${TIFFY_DIR}..."
 cp -f "${DMG_OUTPUT}" "${TIFFY_DIR}/tiffy-cut-Installer.dmg"
