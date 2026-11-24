@@ -2,15 +2,15 @@
 
 **CapCut-Style Video Editor & Collage Studio for macOS**
 
-[![Version](https://img.shields.io/badge/Release-v2.0.2-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/tiffy-app/tiffy-cut/)
+[![Version](https://img.shields.io/badge/Release-v2.0.2-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/)
 [![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Tiffy-Cut)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 `Tiffy Cut` is a lightweight, native macOS video editing suite built with SwiftUI, AVFoundation, and Metal-accelerated CoreImage — designed for fast TikTok, Instagram Reels, and YouTube workflows with zero watermarks.
 
-- 🌐 **Live Website & Studio Preview:** https://pakkawatkh.github.io/tiffy-app/tiffy-cut/
-- 📥 **Direct Download (DMG · 2.0 MB):** https://pakkawatkh.github.io/tiffy-app/tiffy-cut/tiffy-cut-Installer.dmg
-- 🗜️ **ZIP Archive:** https://pakkawatkh.github.io/tiffy-app/tiffy-cut/tiffy-cut.zip
+- 🌐 **Live Website & Studio Preview:** https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/
+- 📥 **Direct Download (DMG · 2.0 MB):** https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/tiffy-cut-Installer.dmg
+- 🗜️ **ZIP Archive:** https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/tiffy-cut.zip
 
 ---
 
