@@ -4,6 +4,7 @@
 
 [![Version](https://img.shields.io/badge/Release-v2.0.2-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/tiffy-app/tiffy-cut/)
 [![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Tiffy-Cut)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 `Tiffy Cut` is a lightweight, native macOS video editing suite built with SwiftUI, AVFoundation, and Metal-accelerated CoreImage — designed for fast TikTok, Instagram Reels, and YouTube workflows with zero watermarks.
 
@@ -47,3 +48,9 @@ swift test
 ./scripts/build_app.sh
 ./scripts/create_dmg.sh
 ```
+
+---
+
+## 📄 License
+
+Open Source — Licensed under the **[MIT License](LICENSE)**. Copyright © 2026 Pakkawat.k.
