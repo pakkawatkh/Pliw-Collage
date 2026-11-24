@@ -10,7 +10,7 @@
 - **Bundle Identifier:** `com.local.pliw-collage` *(keep consistent across releases)*
 - **Platform:** Native macOS 13.0+ (Apple Silicon & Intel), Swift 5.9+, SwiftUI, AppKit, AVFoundation, CoreImage (Metal-accelerated custom `AVVideoCompositing`)
 - **License:** Open Source — MIT License
-- **Release Portal:** `../Pliw-App/pliw-collage/` → Live at `https://pakkawatkh.github.io/Pliw-App/pliw-collage/`
+- **Release Portal:** `../../pliw-collage/` → Live at `https://pakkawatkh.github.io/Pliw-App/pliw-collage/`
 - **Auto-Update Manifest:** `https://pakkawatkh.github.io/Pliw-App/pliw-collage/version.json`
 
 ### Scope & Architecture
@@ -44,13 +44,13 @@ Never stop after editing code. Complete every step below in one pass:
    ```bash
    ./scripts/create_dmg.sh
    ```
-   This builds Release `Pliw Collage.app`, installs `/Applications/Pliw Collage.app`, creates `pliw-collage-Installer.dmg` + `pliw-collage.zip`, and syncs them to `../Pliw-App/pliw-collage/`.
-4. **Update Release Portal (`../Pliw-App`):**
-   - Update `../Pliw-App/pliw-collage/version.json` (`latestVersion`, `releaseDate`, `releaseNotes`).
-   - Update version and exact DMG/ZIP sizes in `../Pliw-App/index.html`, `../Pliw-App/pliw-collage/index.html`, `../Pliw-App/README.md`, and `./README.md`.
-   - Follow `../Pliw-App/AGENTS.md` (100% English, minimal copy).
+   This builds Release `Pliw Collage.app`, installs `/Applications/Pliw Collage.app`, creates `pliw-collage-Installer.dmg` + `pliw-collage.zip`, and syncs them to `../../pliw-collage/`.
+4. **Update Release Portal (`../..`):**
+   - Update `../../pliw-collage/version.json` (`latestVersion`, `releaseDate`, `releaseNotes`).
+   - Update version and exact DMG/ZIP sizes in `../../index.html`, `../../pliw-collage/index.html`, `../../README.md`, and `./README.md`.
+   - Follow `../../AGENTS.md` (100% English, minimal copy).
 5. **Commit & push both repositories:**
    ```bash
    git add -A && git commit -m "chore: release vX.Y.Z - <summary>" && git push origin main
-   cd ../Pliw-App && git add -A && git commit -m "chore(release): Pliw Collage vX.Y.Z" && git push origin main
+   cd ../.. && git add -A && git commit -m "chore(release): Pliw Collage vX.Y.Z" && git push origin main
    ```

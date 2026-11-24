@@ -50,7 +50,11 @@ echo "🗜️ Creating ZIP archive: ${ZIP_OUTPUT}..."
 rm -f "${ZIP_OUTPUT}"
 ditto -c -k --keepParent "${PROJECT_DIR}/Pliw Collage.app" "${ZIP_OUTPUT}"
 
-PLIW_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/Pliw-App/pliw-collage"
+if [ -f "$(cd "${PROJECT_DIR}/../.." && pwd)/index.html" ]; then
+    PLIW_DIR="$(cd "${PROJECT_DIR}/../.." && pwd)/pliw-collage"
+else
+    PLIW_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/Pliw-App/pliw-collage"
+fi
 mkdir -p "${PLIW_DIR}"
 echo "📦 Syncing DMG and ZIP to ${PLIW_DIR}..."
 cp -f "${DMG_OUTPUT}" "${PLIW_DIR}/pliw-collage-Installer.dmg"
