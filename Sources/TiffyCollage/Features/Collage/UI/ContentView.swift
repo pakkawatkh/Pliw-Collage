@@ -3,17 +3,20 @@ import SwiftUI
 
 public struct ContentView: View {
     @ObservedObject var project: CollageProject
-    let onBackHome: () -> Void
+    @ObservedObject private var updater = TiffyCollageUpdateManager.shared
 
-    public init(project: CollageProject, onBackHome: @escaping () -> Void) {
+    public init(project: CollageProject) {
         self.project = project
-        self.onBackHome = onBackHome
     }
 
     public var body: some View {
         VStack(spacing: 0) {
             topToolbar
             Divider()
+            if let update = updater.availableUpdate {
+                updateBanner(update)
+                Divider()
+            }
             HStack(spacing: 0) {
                 SidebarControlsView(project: project)
                 Divider()
@@ -60,33 +63,59 @@ public struct ContentView: View {
         }
     }
 
+    private func updateBanner(_ update: TiffyCollageReleaseMeta) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: "arrow.down.circle.fill")
+                .font(.title3)
+                .foregroundStyle(Color.accentColor)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("มีเวอร์ชันใหม่พร้อมอัปเดต: Tiffy Collage v\(update.latestVersion)")
+                    .font(.subheadline.weight(.semibold))
+                if let notes = update.releaseNotes, !notes.isEmpty {
+                    Text(notes)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+            }
+            Spacer()
+            Button {
+                updater.installAvailableUpdate()
+            } label: {
+                Text(updater.isUpdating ? "กำลังอัปเดต..." : "อัปเดตเลย")
+                    .font(.caption.weight(.semibold))
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(updater.isUpdating)
+
+            Button {
+                updater.dismissBanner()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .background(Color.accentColor.opacity(0.1))
+    }
+
     private var topToolbar: some View {
         HStack(spacing: 16) {
-            HStack(spacing: 10) {
-                Button(action: onBackHome) {
-                    HStack(spacing: 5) {
-                        Image(systemName: "chevron.left")
-                            .font(.caption.weight(.bold))
-                        Text("หน้าแรก")
-                            .font(.subheadline.weight(.medium))
-                    }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(Color.secondary.opacity(0.14), in: RoundedRectangle(cornerRadius: 7))
-                }
-                .buttonStyle(.plain)
-                .help("กลับไปหน้าแรก (⌘⇧H)")
-
-                Divider()
-                    .frame(height: 18)
-
-                HStack(spacing: 6) {
-                    Image(systemName: "rectangle.split.2x2.fill")
-                        .font(.subheadline)
-                        .foregroundStyle(Color.accentColor)
-                    Text("Collage")
-                        .font(.headline)
-                }
+            HStack(spacing: 8) {
+                Image(systemName: "rectangle.split.2x2.fill")
+                    .font(.subheadline)
+                    .foregroundStyle(Color.accentColor)
+                Text("Tiffy Collage")
+                    .font(.headline)
+                Text("v\(updater.currentVersion)")
+                    .font(.caption2.monospacedDigit())
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Color.secondary.opacity(0.14), in: Capsule())
+                    .foregroundStyle(.secondary)
             }
 
             Spacer()
@@ -118,6 +147,22 @@ public struct ContentView: View {
             }
 
             Spacer()
+
+            if let msg = updater.statusMessage {
+                Text(msg)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Button {
+                updater.checkForUpdates(manual: true)
+            } label: {
+                Image(systemName: "arrow.triangle.2.circlepath")
+                    .font(.subheadline)
+            }
+            .buttonStyle(.borderless)
+            .help("ตรวจสอบอัปเดต (Check for Updates)")
+            .disabled(updater.isChecking || updater.isUpdating)
 
             Button {
                 project.presentExportPanel()

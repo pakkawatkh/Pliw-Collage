@@ -3,7 +3,7 @@ import CoreGraphics
 import CoreImage
 import CoreVideo
 import XCTest
-@testable import TiffyCut
+@testable import TiffyCollage
 
 final class TiffyCutCollageTests: XCTestCase {
 

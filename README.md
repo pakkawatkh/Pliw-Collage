@@ -1,44 +1,36 @@
-# ✂️ Tiffy Cut
+# 🧩 Tiffy Collage
 
-**CapCut-Style Video Editor & Collage Studio for macOS**
+**Native macOS Video Collage Studio**
 
-[![Version](https://img.shields.io/badge/Release-v2.1.0-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/)
-[![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Tiffy-Cut)
+[![Version](https://img.shields.io/badge/Release-v3.0.0-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/)
+[![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Tiffy-Collage)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-`Tiffy Cut` is a lightweight, native macOS video editing suite built with SwiftUI, AVFoundation, and Metal-accelerated CoreImage — designed for fast TikTok, Instagram Reels, and YouTube workflows with zero watermarks.
+`Tiffy Collage` is a lightweight, native macOS video collage studio built with SwiftUI, AVFoundation, and CoreImage — combine multiple video clips into `9:16`, `4:5`, `1:1`, `16:9`, or custom grids up to `6×6` and export crisp MP4 with zero watermarks.
 
-- 🌐 **Live Website & Studio Preview:** https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/
-- 📥 **Direct Download (DMG · 2.0 MB):** https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/tiffy-cut-Installer.dmg
-- 🗜️ **ZIP Archive:** https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/tiffy-cut.zip
-
----
-
-## ✨ Features & Modes
-
-### 1. 🎬 Multi-Track Video Editor (4-Pane Dark Studio)
-- **Multi-Track Timeline:** Magnetic Main Video track, Overlay / Picture-in-Picture (PIP), Text Overlays, and Audio tracks.
-- **Fast Editing Tools:** Split clip (`⌘B`), Trim, Undo/Redo, Scale/Position/Rotation/Flip, and Speed (`0.25x–4x`).
-- **Color & Style:** 7 built-in filters, color grading sliders, smooth clip transitions, and project auto-saving.
-- **Hardware-Accelerated Export:** Export crisp MP4 in `720p`, `1080p`, or `4K` at `24/30/60fps` (`H.264` or `HEVC`).
-- **One-Click In-App Auto-Updater:** Automatically checks for updates on launch and updates in one click.
-
-### 2. 🧩 Collage Studio
-- **Social Aspect Ratios & Custom Grids:** Instant presets for `9:16`, `4:5`, `1:1`, `16:9`, or custom aspect ratios and grids from `1×1` up to `6×6`.
-- **Per-Slot Control:** Drag & drop video clips, pan/zoom framing, trim start/end, border spacing, corner radius, background color, and per-slot volume/mute.
+- 🌐 **Website & Preview:** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/
+- 📥 **Direct Download (DMG):** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/tiffy-collage-Installer.dmg
+- 🗜️ **ZIP Archive:** https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/tiffy-collage.zip
 
 ---
 
-## 🚀 Installation Guide
+## ✨ Features
 
-1. Download **`tiffy-cut-Installer.dmg`** from the link above and double-click to open it.
-2. Drag **`Tiffy Cut.app`** into the **Applications** folder.
-3. **First-Time Launch (macOS Gatekeeper):**
-   - Open **System Settings → Privacy & Security → Open Anyway**, **or**
-   - Run in Terminal:
-     ```bash
-     xattr -cr "/Applications/Tiffy Cut.app"
-     ```
+- **Social Aspect Ratios & Custom Grids:** Instant presets for `9:16`, `4:5`, `1:1`, `16:9`, or custom canvas sizes and grids from `1×1` up to `6×6`.
+- **Per-Slot Control:** Drag & drop video clips, pan/zoom framing, start/end trim, border spacing, corner radius, background color, and per-slot volume/mute.
+- **Fast Native MP4 Export:** Hardware-accelerated H.264 MP4 export on Apple Silicon & Intel Macs.
+- **One-Click In-App Auto-Updater:** Checks for updates automatically on launch and updates in one click.
+
+---
+
+## 🚀 Installation
+
+1. Download **`tiffy-collage-Installer.dmg`** and double-click to mount it.
+2. Drag **`Tiffy Collage.app`** into your **Applications** folder.
+3. **First-Time Launch (Gatekeeper):** Open **System Settings → Privacy & Security → Open Anyway**, or run:
+   ```bash
+   xattr -cr "/Applications/Tiffy Collage.app"
+   ```
 
 ---
 

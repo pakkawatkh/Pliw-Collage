@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import SwiftUI
 
-public struct TiffyCutReleaseMeta: Codable, Equatable, Sendable {
+public struct TiffyCollageReleaseMeta: Codable, Equatable, Sendable {
     public let latestVersion: String
     public let releaseDate: String?
     public let downloadUrl: String
@@ -11,7 +11,7 @@ public struct TiffyCutReleaseMeta: Codable, Equatable, Sendable {
     public let releaseNotes: String?
 }
 
-public enum TiffyCutVersionComparator {
+public enum TiffyCollageVersionComparator {
     public static func isNewer(_ remote: String, than current: String) -> Bool {
         let r = parse(remote)
         let c = parse(current)
@@ -34,19 +34,19 @@ public enum TiffyCutVersionComparator {
 }
 
 @MainActor
-public final class TiffyCutUpdateManager: ObservableObject {
-    public static let shared = TiffyCutUpdateManager()
-    public static let versionURL = URL(string: "https://pakkawatkh.github.io/Tiffy-App/tiffy-cut/version.json")!
+public final class TiffyCollageUpdateManager: ObservableObject {
+    public static let shared = TiffyCollageUpdateManager()
+    public static let versionURL = URL(string: "https://pakkawatkh.github.io/Tiffy-App/tiffy-collage/version.json")!
 
     @Published public private(set) var isChecking = false
     @Published public private(set) var isUpdating = false
-    @Published public private(set) var availableUpdate: TiffyCutReleaseMeta?
+    @Published public private(set) var availableUpdate: TiffyCollageReleaseMeta?
     @Published public private(set) var statusMessage: String?
 
     private var statusDismissTask: Task<Void, Never>?
 
     public var currentVersion: String {
-        (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "2.1.0"
+        (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "3.0.0"
     }
 
     private init() {}
@@ -72,14 +72,14 @@ public final class TiffyCutUpdateManager: ObservableObject {
                     return
                 }
 
-                let meta = try JSONDecoder().decode(TiffyCutReleaseMeta.self, from: data)
-                if TiffyCutVersionComparator.isNewer(meta.latestVersion, than: currentVersion) {
+                let meta = try JSONDecoder().decode(TiffyCollageReleaseMeta.self, from: data)
+                if TiffyCollageVersionComparator.isNewer(meta.latestVersion, than: currentVersion) {
                     availableUpdate = meta
                     statusMessage = nil
                 } else {
                     availableUpdate = nil
                     if manual {
-                        setStatus("Tiffy Cut v\(currentVersion) เป็นเวอร์ชันล่าสุดแล้ว", autoHideAfter: 3.5)
+                        setStatus("Tiffy Collage v\(currentVersion) เป็นเวอร์ชันล่าสุดแล้ว", autoHideAfter: 3.5)
                     }
                 }
             } catch {
@@ -105,7 +105,7 @@ public final class TiffyCutUpdateManager: ObservableObject {
         }
 
         isUpdating = true
-        setStatus("กำลังดาวน์โหลด Tiffy Cut v\(meta.latestVersion)...", autoHideAfter: nil)
+        setStatus("กำลังดาวน์โหลด Tiffy Collage v\(meta.latestVersion)...", autoHideAfter: nil)
 
         Task {
             do {
@@ -117,7 +117,7 @@ public final class TiffyCutUpdateManager: ObservableObject {
                 setStatus("กำลังติดตั้งและเปิดแอปใหม่...", autoHideAfter: nil)
 
                 let staging = FileManager.default.temporaryDirectory
-                    .appendingPathComponent("TiffyCutUpdate-\(UUID().uuidString)")
+                    .appendingPathComponent("TiffyCollageUpdate-\(UUID().uuidString)")
                 try FileManager.default.createDirectory(at: staging, withIntermediateDirectories: true)
 
                 let unzip = Process()
@@ -126,24 +126,21 @@ public final class TiffyCutUpdateManager: ObservableObject {
                 try unzip.run()
                 unzip.waitUntilExit()
                 guard unzip.terminationStatus == 0 else {
-                    throw NSError(domain: "TiffyCutUpdater", code: Int(unzip.terminationStatus))
+                    throw NSError(domain: "TiffyCollageUpdater", code: Int(unzip.terminationStatus))
                 }
 
-                let preferredApp = staging.appendingPathComponent("Tiffy Cut.app")
-                let legacyApp = staging.appendingPathComponent("tiffy-cut.app")
-                let extractedApp = FileManager.default.fileExists(atPath: preferredApp.path) ? preferredApp : legacyApp
+                let extractedApp = staging.appendingPathComponent("Tiffy Collage.app")
                 guard FileManager.default.fileExists(atPath: extractedApp.path) else {
-                    throw NSError(domain: "TiffyCutUpdater", code: 404)
+                    throw NSError(domain: "TiffyCollageUpdater", code: 404)
                 }
 
-                let targetApp = "/Applications/Tiffy Cut.app"
-                let legacyTarget = "/Applications/tiffy-cut.app"
+                let targetApp = "/Applications/Tiffy Collage.app"
                 let pid = ProcessInfo.processInfo.processIdentifier
 
                 let script = """
                 #!/bin/bash
                 while kill -0 \(pid) 2>/dev/null; do sleep 0.2; done
-                rm -rf "\(legacyTarget)" "\(targetApp)"
+                rm -rf "/Applications/tiffy-cut.app" "/Applications/Tiffy Cut.app" "\(targetApp)"
                 mv "\(extractedApp.path)" "\(targetApp)"
                 xattr -cr "\(targetApp)" 2>/dev/null || true
                 open "\(targetApp)"
