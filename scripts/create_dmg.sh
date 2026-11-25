@@ -9,11 +9,19 @@ cd "${PROJECT_DIR}"
 echo "🔨 Ensuring latest release build of Pliw Collage.app..."
 ./scripts/build_app.sh
 
-DMG_TMP="${PROJECT_DIR}/.build_dmg"
-DMG_OUTPUT="${PROJECT_DIR}/pliw-collage-Installer.dmg"
+if [ -d "$(cd "${PROJECT_DIR}/.." && pwd)/public" ]; then
+    PLIW_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/public/pliw-collage"
+else
+    PLIW_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/Pliw-App/pliw-collage"
+fi
+mkdir -p "${PLIW_DIR}"
+
+DMG_TMP="$(mktemp -d)"
+trap 'rm -rf "${DMG_TMP}"' EXIT
+DMG_OUTPUT="${PLIW_DIR}/pliw-collage-Installer.dmg"
+ZIP_OUTPUT="${PLIW_DIR}/pliw-collage.zip"
 
 echo "📦 Preparing DMG installer directory structure..."
-rm -rf "${DMG_TMP}"
 mkdir -p "${DMG_TMP}"
 
 cp -R "${PROJECT_DIR}/Pliw Collage.app" "${DMG_TMP}/Pliw Collage.app"
@@ -41,24 +49,15 @@ cat << 'EOF' > "${DMG_TMP}/How to Install.txt"
 EOF
 
 echo "📀 Creating DMG disk image: ${DMG_OUTPUT}..."
-rm -f "${DMG_OUTPUT}"
+rm -f "${DMG_OUTPUT}" "${PROJECT_DIR}/pliw-collage-Installer.dmg"
 hdiutil create -volname "Pliw Collage Installer" -srcfolder "${DMG_TMP}" -ov -format UDZO "${DMG_OUTPUT}"
-rm -rf "${DMG_TMP}"
 
-ZIP_OUTPUT="${PROJECT_DIR}/pliw-collage.zip"
 echo "🗜️ Creating ZIP archive: ${ZIP_OUTPUT}..."
-rm -f "${ZIP_OUTPUT}"
+rm -f "${ZIP_OUTPUT}" "${PROJECT_DIR}/pliw-collage.zip"
 ditto -c -k --keepParent "${PROJECT_DIR}/Pliw Collage.app" "${ZIP_OUTPUT}"
 
-if [ -d "$(cd "${PROJECT_DIR}/.." && pwd)/public" ]; then
-    PLIW_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/public/pliw-collage"
-else
-    PLIW_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/Pliw-App/pliw-collage"
-fi
-mkdir -p "${PLIW_DIR}"
-echo "📦 Syncing DMG and ZIP to ${PLIW_DIR}..."
-cp -f "${DMG_OUTPUT}" "${PLIW_DIR}/pliw-collage-Installer.dmg"
-cp -f "${ZIP_OUTPUT}" "${PLIW_DIR}/pliw-collage.zip"
+# Remove temporary local .app bundle so build outputs stay only in public/
+rm -rf "${PROJECT_DIR}/Pliw Collage.app"
 
-echo "🎉 DMG and ZIP packages successfully created!"
+echo "🎉 DMG and ZIP packages successfully created in ${PLIW_DIR}!"
 ls -lh "${DMG_OUTPUT}" "${ZIP_OUTPUT}"
