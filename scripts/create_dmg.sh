@@ -10,7 +10,7 @@ echo "🔨 Ensuring latest release build of Pliw Collage.app..."
 ./scripts/build_app.sh
 
 if [ -d "$(cd "${PROJECT_DIR}/.." && pwd)/public" ]; then
-    PLIW_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/public/pliw-collage"
+    PLIW_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/public/public/pliw-collage"
 else
     PLIW_DIR="$(cd "${PROJECT_DIR}/.." && pwd)/Pliw-App/pliw-collage"
 fi
