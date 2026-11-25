@@ -2,15 +2,15 @@
 
 **Native macOS Video Collage Studio**
 
-[![Version](https://img.shields.io/badge/Release-v3.1.2-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/Pliw-App/pliw-collage/)
+[![Version](https://img.shields.io/badge/Release-v3.1.2-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/pliw-public/pliw-collage/)
 [![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Pliw-Collage)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 `Pliw Collage` is a lightweight, native macOS video collage studio built with SwiftUI, AVFoundation, and CoreImage — combine multiple video clips into `9:16`, `4:5`, `1:1`, `16:9`, or custom grids up to `6×6` and export crisp MP4 with zero watermarks.
 
-- 🌐 **Website & Preview:** https://pakkawatkh.github.io/Pliw-App/pliw-collage/
-- 📥 **Direct Download (DMG · 1.7 MB):** https://pakkawatkh.github.io/Pliw-App/pliw-collage/pliw-collage-Installer.dmg
-- 🗜️ **ZIP Archive (1.4 MB):** https://pakkawatkh.github.io/Pliw-App/pliw-collage/pliw-collage.zip
+- 🌐 **Website & Preview:** https://pakkawatkh.github.io/pliw-public/pliw-collage/
+- 📥 **Direct Download (DMG · 1.8 MB):** https://pakkawatkh.github.io/pliw-public/pliw-collage/pliw-collage-Installer.dmg
+- 🗜️ **ZIP Archive (1.5 MB):** https://pakkawatkh.github.io/pliw-public/pliw-collage/pliw-collage.zip
 
 ---
 
