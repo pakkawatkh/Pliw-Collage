@@ -2,7 +2,7 @@
 
 **Native macOS Video Collage Studio**
 
-[![Version](https://img.shields.io/badge/Release-v3.1.2-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/public/pliw-collage/)
+[![Version](https://img.shields.io/badge/Release-v3.1.3-ec4899?style=for-the-badge)](https://pakkawatkh.github.io/public/pliw-collage/)
 [![Platform](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey?style=for-the-badge&logo=apple)](https://github.com/pakkawatkh/Pliw-Collage)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 

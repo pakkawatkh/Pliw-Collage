@@ -36,7 +36,7 @@ public enum PliwCollageVersionComparator {
 @MainActor
 public final class PliwCollageUpdateManager: ObservableObject {
     public static let shared = PliwCollageUpdateManager()
-    public static let versionURL = URL(string: "https://pakkawatkh.github.io/Pliw-App/pliw-collage/version.json")!
+    public static let versionURL = URL(string: "https://pakkawatkh.github.io/public/pliw-collage/version.json")!
 
     @Published public private(set) var isChecking = false
     @Published public private(set) var isUpdating = false
